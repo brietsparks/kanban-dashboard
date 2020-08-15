@@ -1,1 +1,1 @@
-export { default as Project } from './Project';
+export { default as Dashboard } from './Dashboard';

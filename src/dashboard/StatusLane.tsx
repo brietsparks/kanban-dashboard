@@ -5,6 +5,10 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import Dialog from '@material-ui/core/Dialog';
 import DragIndicator from '@material-ui/icons/DragIndicator';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+
 
 import {
   Draggable,
@@ -14,18 +18,15 @@ import {
   DraggableProvidedDragHandleProps
 } from 'react-beautiful-dnd';
 
-import { useAuth } from '../auth';
 import { hooks, emptyArray } from './store';
 
 import { OptionsPopper } from '../components/options-popper';
 import { ConfirmationButtons } from '../components/buttons';
-import StatusOptions from './StatusOptions';
 import StatusEditorForm from './StatusEditorForm';
 import TaskCard from './TaskCard';
 import TaskEditorForm from './TaskEditorForm';
-
 import { useLaneStyles, useCommonStyles } from './styles';
-// import './overrides.css';
+import { useCurrentUserId } from './CurrentUser';
 
 
 export interface Props {
@@ -34,7 +35,7 @@ export interface Props {
 }
 
 export default function StatusLane({ id, dragHandleProps }: Props) {
-  const { id: creatorId } = useAuth();
+  const currentUserId = useCurrentUserId();
   const createTask = hooks.useCreateTask();
   const updateStatus = hooks.useUpdateStatus();
   const deleteStatus = hooks.useDeleteStatus();
@@ -53,8 +54,8 @@ export default function StatusLane({ id, dragHandleProps }: Props) {
   const closeDeleteConfirm = () => setIsDeleteConfirmOpen(false);
 
   const handleSubmitNewTask = (title: string) => {
-    if (createTask && creatorId) {
-      createTask({ title, statusId: id, creatorId });
+    if (createTask && currentUserId) {
+      createTask({ title, statusId: id, creatorId: currentUserId });
     }
     closeTaskForm();
   };
@@ -149,5 +150,23 @@ export default function StatusLane({ id, dragHandleProps }: Props) {
         }}
       </Droppable>
     </Paper>
+  );
+}
+
+export interface StatusOptionsProps {
+  onClickEdit: () => void,
+  onClickDelete: () => void
+}
+
+export function StatusOptions({ onClickEdit, onClickDelete }: StatusOptionsProps) {
+  return (
+    <List>
+      <ListItem button onClick={onClickEdit}>
+        <ListItemText primary="Edit Column"/>
+      </ListItem>
+      <ListItem button onClick={onClickDelete}>
+        <ListItemText primary="Delete Column"/>
+      </ListItem>
+    </List>
   );
 }

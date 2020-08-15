@@ -20,6 +20,7 @@ export default function Projects({ userId }: Props) {
   return (
     <div>
       <NewProject/>
+
       {result && result.map(({ id, title }) => {
         return (
           <div>

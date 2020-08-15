@@ -41,8 +41,8 @@ export default function TaskAssignment({ id }: Props) {
       >
         <MenuItem value={''} selected={!assigneeId}>&nbsp;</MenuItem>
         {userIds.map(userId => (
-          <MenuItem value={userId} selected={assigneeId === userId}>
-            {userId}
+          <MenuItem key={userId} value={userId} selected={userId === assigneeId}>
+            <AssignableUsername id={userId}/>
           </MenuItem>
         ))}
       </Select>
@@ -56,4 +56,18 @@ export default function TaskAssignment({ id }: Props) {
   );
 }
 
+
+export interface AssignableUsernameProps {
+  id: string
+}
+function AssignableUsername({ id }: AssignableUsernameProps) {
+  const user = hooks.useUser(id);
+  if (!user) {
+    return null;
+  }
+
+  return (
+    <span>{user.username}</span>
+  );
+}
 

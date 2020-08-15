@@ -1,5 +1,16 @@
 import { makeStyles } from '@material-ui/core/styles';
 
+export const useDashboardStyles = makeStyles(() => ({
+  root: {
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  content: {
+    flexGrow: 1,
+  }
+}))
+
 export const useCommonStyles = makeStyles(() => ({
   dragHandle: {
     position: 'absolute',

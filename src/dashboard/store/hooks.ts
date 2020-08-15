@@ -4,7 +4,7 @@ import { actions, selectors, State } from './index';
 
 export function useCreateUser() {
   const dispatch = useDispatch();
-  return useCallback((user: { id: string, username: string}) => {
+  return useCallback((user: { id?: string, username: string}) => {
     dispatch(actions.createUser(user));
   }, [dispatch]);
 }

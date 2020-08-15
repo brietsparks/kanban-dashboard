@@ -3,9 +3,6 @@ export class ServiceClient {
   constructor() {
   }
 
-  setToken(token: any) {
-  }
-
   async getUserProjectTitles(userId: string) {
   }
 

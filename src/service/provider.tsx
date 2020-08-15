@@ -1,6 +1,5 @@
-import React, { ReactNode, createContext, useContext, useState } from 'react';
+import React, { ReactNode, createContext, useContext } from 'react';
 
-import { useAuth } from '../auth';
 import { ServiceClient } from './client';
 
 export interface ContextValue {
@@ -16,16 +15,7 @@ export interface Props {
 const client = new ServiceClient();
 
 export function ServiceProvider({ children }: Props) {
-  const [isClientAuthenticated, setIsClientAuthenticated] = useState(false);
-
-  const { token } = useAuth();
-
-  client.setToken(token);
-  if (token && !!token !== isClientAuthenticated) {
-    setIsClientAuthenticated(!!token);
-  }
-
-  const value: ContextValue = { client, isClientAuthenticated };
+  const value: ContextValue = { client };
 
   return (
     <ServiceContext.Provider value={value}>

@@ -1,31 +1,99 @@
-import { useAsync } from 'react-async-hook';
-import { emptyProjectData } from './store';
-import { Project as ProjectState } from './store/types';
+import React, { useState } from 'react';
+import Paper from '@material-ui/core/Paper';
+import Dialog from '@material-ui/core/Dialog';
+import Button from '@material-ui/core/Button';
+import {
+  DragDropContext,
+  DropResult,
+  Droppable,
+  DroppableProvided,
+  Draggable,
+  DraggableProvided,
+} from 'react-beautiful-dnd';
 
-import { useServiceClient } from '../service';
-import { StoreProvider } from './store';
-import ProjectBoard from './ProjectBoard';
+import { hooks, emptyArray } from './store';
+import { useBoardStyles } from './styles';
+import StatusEditorForm from './StatusEditorForm';
+import StatusLane from './StatusLane';
 
-export interface Props {
-  id?: string
-}
-export default function Project({ id }: Props) {
-  const service = useServiceClient();
-  const { error, loading, result } = useAsync<ProjectState>(service.getProject.bind(service), [id]);
+export default function Project() {
+  const statusIds = hooks.useStatusIds();
+  const createStatus = hooks.useCreateStatus();
+  const moveStatus = hooks.useMoveStatus();
+  const moveTask = hooks.useMoveStatusTask();
 
-  if (loading) {
-    return <p>loading project</p>
-  }
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const classNames = useBoardStyles();
 
-  if (error) {
-    return <p>error loading project</p>
-  }
+  const handleSubmitNewStatus = (title: string) => {
+    if (createStatus) {
+      createStatus({ title });
+    }
+    setIsFormOpen(false);
+  };
 
-  const state = result.data || emptyProjectData;
+  const handleCancelNewStatus = () => setIsFormOpen(false);
+
+  const handleDragEnd = ({ type, source, destination, draggableId }: DropResult) => {
+    if (source && destination) {
+      if (type === 'statusLane' && moveStatus) {
+        moveStatus(source.index, destination.index);
+      }
+
+      if (type === 'taskCard' && moveTask) {
+        moveTask(
+          draggableId,
+          source.droppableId,
+          source.index,
+          destination.droppableId,
+          destination.index
+        )
+      }
+    }
+  };
 
   return (
-    <StoreProvider projectId={id} state={state}>
-      <ProjectBoard/>
-    </StoreProvider>
+    <div className={classNames.board}>
+      <DragDropContext onDragEnd={handleDragEnd}>
+        {createStatus && (
+          <Dialog open={isFormOpen}>
+            <Paper className={classNames.dialog}>
+              <StatusEditorForm
+                onSubmit={handleSubmitNewStatus}
+                onCancel={handleCancelNewStatus}
+              />
+            </Paper>
+          </Dialog>
+        )}
+
+        <Droppable type="statusLane" droppableId="projectBoard" direction="horizontal">
+          {(provided: DroppableProvided) => {
+            return (
+              <div ref={provided.innerRef} {...provided.droppableProps} className={classNames.lanes}>
+                {(statusIds || emptyArray).map((statusId, index) => (
+                  <Draggable key={statusId} draggableId={statusId.toString()} index={index}>
+                    {(provided: DraggableProvided) => {
+                      return (
+                        <div className={classNames.laneContainer} ref={provided.innerRef} {...provided.draggableProps}>
+                          <StatusLane id={statusId} dragHandleProps={provided.dragHandleProps} />
+                        </div>
+                      )
+                    }}
+                  </Draggable>
+                ))}
+
+                {provided.placeholder}
+
+                <Button
+                  className={classNames.newStatusLane}
+                  onClick={() => setIsFormOpen(true)}
+                  variant="outlined"
+                >Add Column</Button>
+              </div>
+            )
+          }}
+        </Droppable>
+      </DragDropContext>
+    </div>
   );
 }

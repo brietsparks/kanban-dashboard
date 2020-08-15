@@ -1,0 +1,25 @@
+{
+  entities: {
+    user: {
+      u1: {
+        id: 'u1',
+        name: 'Sunny Day',
+      }
+    },
+    status: {
+      s1: { title: 'Todo' },
+      s2: { title: 'In Progress' },
+      s3: { title: 'Completed' },
+    },
+    task: {},
+    tag: {},
+    comment: {},
+  },
+  ids: {
+    user: ['u1'],
+    status: ['s1', 's2', 's3'],
+    task: [],
+    tag: [],
+    comment: []
+  },
+}

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { useAuth } from '../auth';
 import { Comment as CommentView } from '../components/comment';
 import { hooks, emptyArray } from './store';
+import { useCurrentUserId } from './CurrentUser';
 
 export interface Props {
   id: string,
@@ -13,7 +13,7 @@ export default function Comment({ id }: Props) {
   const comment = hooks.useComment(id);
   const createChildComment = hooks.useCreateChildComment();
   const username = hooks.useCommentUsername(id);
-  const { id: creatorId } = useAuth();
+  const currentUserId = useCurrentUserId();
 
   if (!comment) {
     return null;
@@ -23,7 +23,7 @@ export default function Comment({ id }: Props) {
 
 
   const handleSubmitReply = (value: string) => {
-    createChildComment({ value, parentCommentId: id, creatorId });
+    createChildComment({ value, parentCommentId: id, creatorId: currentUserId });
   };
 
   const childCommentsElement = (

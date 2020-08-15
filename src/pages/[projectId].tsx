@@ -1,15 +1,12 @@
 import React from 'react';
 
 import { ServiceProvider } from '../service';
-import AppLayout from '../components/layout/AppLayout';
-import { Project } from '../dashboard';
+import { Dashboard } from '../dashboard';
 
 export default function DashboardPage() {
   return (
     <ServiceProvider>
-      <AppLayout>
-        <Project id="p1"/>
-      </AppLayout>
+      <Dashboard projectId="p1"/>
     </ServiceProvider>
   );
 }

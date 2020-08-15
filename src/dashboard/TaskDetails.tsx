@@ -4,7 +4,6 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-import { useAuth } from '../auth';
 import { EditButton, CloseButton, TextButton } from '../components/buttons';
 import { NewComment } from '../components/comment';
 
@@ -12,6 +11,7 @@ import { hooks } from './store';
 import Comment from './Comment';
 import TaskAssignment from './TaskAssignment';
 import { useTaskDetailsStyles } from './styles';
+import { useCurrentUserId } from './CurrentUser';
 
 export interface Props {
   id: string,
@@ -22,7 +22,7 @@ export default function TaskDetails({ id, isOpen, close }: Props) {
   const { title, rootCommentIds } = hooks.useTask(id);
   const updateTask = hooks.useUpdateTask();
   const createComment = hooks.useCreateRootComment();
-  const { id: creatorId } = useAuth();
+  const currentUserId = useCurrentUserId();
 
   //
   // edit title
@@ -50,7 +50,7 @@ export default function TaskDetails({ id, isOpen, close }: Props) {
   const showCommentForm = () => setIsCommentFormShown(true);
   const hideCommentForm = () => setIsCommentFormShown(false);
   const handleSubmitComment = (value: string) => {
-    createComment({ value, taskId: id, creatorId });
+    createComment({ value, taskId: id, creatorId: currentUserId });
     hideCommentForm();
   };
 
