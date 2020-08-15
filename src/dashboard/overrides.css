@@ -1,0 +1,6 @@
+.board-status > [data-rbd-droppable-id] {
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+    height: 100%;
+}
