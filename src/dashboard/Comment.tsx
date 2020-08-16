@@ -36,6 +36,7 @@ export default function Comment({ id }: Props) {
       value={value}
       childComments={childCommentsElement}
       onSubmitReply={handleSubmitReply}
+      ts={comment.ts}
     />
   );
 }

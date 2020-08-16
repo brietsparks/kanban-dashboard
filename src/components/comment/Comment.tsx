@@ -8,6 +8,7 @@ import { useStyles } from './styles';
 export interface Props {
   username: string,
   value: string,
+  ts: Date|null,
   childComments?: ReactNode,
   onSubmitReply?: (value: string, ts: Date) => void,
 }
@@ -15,6 +16,7 @@ export interface Props {
 export default function Comment({
   username,
   value,
+  ts,
   childComments,
   onSubmitReply,
 }: Props) {
@@ -34,7 +36,7 @@ export default function Comment({
   return (
     <div className={classNames.comment}>
       <div className={classNames.commentHeader}>
-        <Typography variant="subtitle2">{username}</Typography>
+        <Typography variant="subtitle2">{username} at {JSON.stringify(ts, null, 2)}</Typography>
         <Typography>{value}</Typography>
       </div>
 

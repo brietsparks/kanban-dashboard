@@ -75,7 +75,7 @@ export function useCreateTag() {
 }
 export function useCreateRootComment() {
   const dispatch = useDispatch();
-  return useCallback((comment: { value: string, taskId: string, creatorId: string }) => {
+  return useCallback((comment: { value: string, taskId: string, creatorId: string, ts: Date }) => {
     dispatch(actions.createRootComment(comment));
   }, [dispatch]);
 }

@@ -52,7 +52,7 @@ export default function TaskDetails({ id, isOpen, close }: Props) {
   const showCommentForm = () => setIsCommentFormShown(true);
   const hideCommentForm = () => setIsCommentFormShown(false);
   const handleSubmitComment = (value: string) => {
-    createComment({ value, taskId: id, creatorId: currentUserId });
+    createComment({ value, taskId: id, creatorId: currentUserId, ts: new Date() });
     hideCommentForm();
   };
 

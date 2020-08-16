@@ -1,9 +1,9 @@
 import React, { ReactNode, createContext, useContext } from 'react';
 
-import { ServiceClient } from './client';
+import { LocalStorageServiceClient } from './client';
 
 export interface ContextValue {
-  client?: ServiceClient,
+  client?: LocalStorageServiceClient,
   isClientAuthenticated?: boolean,
 }
 const ServiceContext = createContext<ContextValue>({});
@@ -12,7 +12,7 @@ export interface Props {
   children: ReactNode
 }
 
-const client = new ServiceClient();
+const client = new LocalStorageServiceClient();
 
 export function ServiceProvider({ children }: Props) {
   const value: ContextValue = { client };

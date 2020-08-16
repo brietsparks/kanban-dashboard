@@ -1,20 +1,61 @@
-export class ServiceClient {
+import { v4 as uuid } from 'uuid';
+import { emptyProjectData } from '../dashboard/store';
+import { Project, ServiceClient } from './interfaces';
+import { createBoilerplateState } from './boilerplate';
 
-  constructor() {
+const localStorageKey = 'taskboard_projects';
+
+
+export class LocalStorageServiceClient implements ServiceClient{
+  async getUserProjectsMeta() {
+    const projects = await this.getProjects();
+    return Object.values(projects).map((project: Project) => project.meta);
   }
 
-  async getUserProjectTitles(userId: string) {
-  }
+  async createProject(title: string, description: string, boilerplate: boolean) {
+    const id = uuid();
+    const data = boilerplate ? createBoilerplateState() : emptyProjectData;
 
-  async createNewProject(title: string) {
+    const project: Project = {
+      meta: { id, title, description, ts: new Date() },
+      data
+    };
+
+    await this.putProject(id, project);
+
+    return id;
   }
 
   async getProject(id: string) {
-    return {
-
-    }
+    const projects = await this.getProjects();
+    return projects[id];
   }
 
-  async updateProjectData(id: string) {
+  async updateProject(id: string, project: Project) {
+    const existing = await this.getProject(id);
+    if (!existing) {
+      throw new Error(`project ${id} does not exist`);
+    }
+
+    return this.putProject(id, project);
+  }
+
+  async deleteProject(id: string) {
+    const projects = await this.getProjects();
+    delete projects[id];
+    const persistable = JSON.stringify(projects);
+    localStorage.setItem(localStorageKey, persistable);
+  }
+
+  private async getProjects() {
+    let persistable = localStorage.getItem(localStorageKey) || '{}';
+    return JSON.parse(persistable);
+  }
+
+  private async putProject(id: string, project: Project) {
+    const projects = await this.getProjects();
+    projects[id] = project;
+    const persistable = JSON.stringify(projects);
+    localStorage.setItem(localStorageKey, persistable)
   }
 }

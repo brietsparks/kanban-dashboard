@@ -6,11 +6,13 @@ import { Dashboard } from '../../dashboard';
 
 export default function DashboardPage() {
   const router = useRouter();
+  const { projectId } = router.query;
+
   const handleGoToProjects = () => router.push(`/projects`);
 
   return (
     <ServiceProvider>
-      <Dashboard projectId="p1" onGoToProjects={handleGoToProjects} />
+      <Dashboard projectId={projectId as string} onGoToProjects={handleGoToProjects} />
     </ServiceProvider>
   );
 }
