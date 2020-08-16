@@ -12,6 +12,7 @@ import Comment from './Comment';
 import TaskAssignment from './TaskAssignment';
 import { useTaskDetailsStyles } from './styles';
 import { useCurrentUserId } from './CurrentUser';
+import { useUser } from './store/hooks';
 
 export interface Props {
   id: string,
@@ -19,10 +20,11 @@ export interface Props {
   close: () => void
 }
 export default function TaskDetails({ id, isOpen, close }: Props) {
-  const { title, rootCommentIds } = hooks.useTask(id);
+  const { title, rootCommentIds, creatorId } = hooks.useTask(id);
   const updateTask = hooks.useUpdateTask();
   const createComment = hooks.useCreateRootComment();
   const currentUserId = useCurrentUserId();
+  const creator = useUser(creatorId);
 
   //
   // edit title
@@ -91,6 +93,10 @@ export default function TaskDetails({ id, isOpen, close }: Props) {
           <span>
             <CloseButton onClick={close}/>
           </span>
+        </div>
+
+        <div className={classNames.section}>
+          <Typography variant="subtitle2">Created by {creator.username}</Typography>
         </div>
 
         <div className={classNames.section}>

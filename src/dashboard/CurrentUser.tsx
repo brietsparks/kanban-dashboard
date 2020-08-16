@@ -44,3 +44,13 @@ export function useSetCurrentUserId() {
   const context = useContext(CurrentUserContext);
   return context.setUserId;
 }
+
+export function useCurrentUsername() {
+  const userId = useCurrentUserId();
+  const user = hooks.useUser(userId);
+  if (!user) {
+    return '';
+  }
+
+  return user.username;
+}

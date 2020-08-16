@@ -48,10 +48,10 @@ export default function TaskCard({ id, dragHandleProps }: Props) {
         <OptionsPopper>
           <List>
             <ListItem button onClick={openDetails}>
-              <ListItemText primary="Edit Task"/>
+              <ListItemText primary="View & Edit"/>
             </ListItem>
             <ListItem button onClick={handleClickDelete}>
-              <ListItemText primary="Delete Task"/>
+              <ListItemText primary="Delete"/>
             </ListItem>
           </List>
         </OptionsPopper>

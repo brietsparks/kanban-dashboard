@@ -9,20 +9,14 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Drawer from '@material-ui/core/Drawer';
 
 import UsersMenu from './UsersMenu';
-
-const useStyles = makeStyles((theme) => ({
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
+import { useCurrentUsername } from './CurrentUser';
+import { useMenubarStyles } from './styles';
 
 export default function Menubar() {
-  const classes = useStyles();
+  const classes = useMenubarStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const currentUsername = useCurrentUsername();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -39,14 +33,16 @@ export default function Menubar() {
           <IconButton edge="start" className={classes.menuButton} color="inherit">
             <MenuIcon />
           </IconButton>
-
-          <span className={classes.title} />
-
+          
           <Typography variant="h6" className={classes.title}>
             Current Project
           </Typography>
 
-          <div>
+          <div className={classes.currentUser}>
+            <Typography variant="subtitle2" className={classes.currentUsername}>
+              {currentUsername}
+            </Typography>
+
             <IconButton onClick={handleMenu} color="inherit">
               <AccountCircle />
             </IconButton>

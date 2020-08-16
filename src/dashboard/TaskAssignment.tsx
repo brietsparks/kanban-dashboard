@@ -39,7 +39,7 @@ export default function TaskAssignment({ id }: Props) {
         variant="outlined"
         className={classNames.select}
       >
-        <MenuItem value={''} selected={!assigneeId}>&nbsp;</MenuItem>
+        <MenuItem value="" selected={!assigneeId}>&nbsp;</MenuItem>
         {userIds.map(userId => (
           <MenuItem key={userId} value={userId} selected={userId === assigneeId}>
             <AssignableUsername id={userId}/>

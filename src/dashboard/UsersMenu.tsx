@@ -7,9 +7,11 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import CheckIcon from '@material-ui/icons/CheckCircle';
 import UncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import TextField from '@material-ui/core/TextField';
 
 import { hooks } from './store';
 import { useCurrentUserId, useSetCurrentUserId } from './CurrentUser';
+import { ConfirmationButtons } from '../components/buttons';
 
 export default function UsersMenu() {
   const ids = hooks.useUserIds();
@@ -18,10 +20,17 @@ export default function UsersMenu() {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const openEditor = () => setIsEditorOpen(true);
   const closeEditor = () => setIsEditorOpen(false);
+  const submitNewUser = (username: string) => {
+    createUser({ username });
+    closeEditor();
+  }
 
   return (
     <div>
       <Button onClick={openEditor}>New User</Button>
+      {isEditorOpen &&
+      <UserEditorForm onSubmit={submitNewUser} onCancel={closeEditor} username="" />
+      }
 
       <List>
         {ids.map(id => (
@@ -59,8 +68,37 @@ export function UserItem({ id }: UserItemProps) {
   );
 }
 
-function NewUser() {
+export interface UserEditorFormProps {
+  username?: string,
+  onSubmit: (username: string) => void,
+  onCancel: () => void
+}
+export function UserEditorForm({ username: initialUsername = '', onSubmit, onCancel }: UserEditorFormProps) {
+  const [value, setValue] = useState(initialUsername);
+
+  const handleSubmit = () => {
+    if (value) {
+      onSubmit(value);
+      setValue('');
+    }
+  };
+
+  const handleCancel = () => {
+    onCancel();
+    setValue('');
+  };
+
   return (
-    <div></div>
+    <div>
+      <TextField
+        autoFocus
+        fullWidth
+        placeholder="Column Title"
+        value={value}
+        onChange={e => setValue(e.target.value)}
+      />
+
+      <ConfirmationButtons onConfirm={handleSubmit} onCancel={handleCancel} />
+    </div>
   );
 }

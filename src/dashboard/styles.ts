@@ -11,6 +11,22 @@ export const useDashboardStyles = makeStyles(() => ({
   }
 }))
 
+export const useMenubarStyles = makeStyles((theme) => ({
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+  currentUser: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  currentUsername: {
+    marginRight: 4,
+  }
+}));
+
 export const useCommonStyles = makeStyles(() => ({
   dragHandle: {
     position: 'absolute',
