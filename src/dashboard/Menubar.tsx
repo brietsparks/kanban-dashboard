@@ -3,7 +3,7 @@ import MuiAppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import ProjectsIcon from '@material-ui/icons/Apps';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Drawer from '@material-ui/core/Drawer';
 
@@ -11,7 +11,11 @@ import UsersMenu from './UsersMenu';
 import { useCurrentUsername } from './CurrentUser';
 import { useMenubarStyles } from './styles';
 
-export default function Menubar() {
+export interface MenubarProps {
+  onClickProjects: () => void,
+}
+
+export default function Menubar({ onClickProjects }: MenubarProps) {
   const classes = useMenubarStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -29,9 +33,12 @@ export default function Menubar() {
     <Fragment>
       <MuiAppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit">
-            <MenuIcon />
-          </IconButton>
+          <IconButton
+            onClick={onClickProjects}
+            className={classes.menuButton}
+            edge="start"
+            color="inherit"
+          ><ProjectsIcon /></IconButton>
 
           <Typography variant="h6" className={classes.title}>Current Project</Typography>
 

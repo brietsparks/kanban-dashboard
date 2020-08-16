@@ -11,9 +11,10 @@ import Project from './Project';
 import { useDashboardStyles } from './styles';
 
 export interface Props {
-  projectId?: string
+  projectId: string,
+  onGoToProjects: () => void,
 }
-export default function Dashboard({ projectId }: Props) {
+export default function Dashboard({ projectId, onGoToProjects }: Props) {
   const service = useServiceClient();
   const { error, loading, result } = useAsync<ProjectState>(service.getProject.bind(service), [projectId]);
   const classNames = useDashboardStyles();
@@ -32,7 +33,7 @@ export default function Dashboard({ projectId }: Props) {
     <StoreProvider projectId={projectId} state={state}>
       <CurrentUser userId={state.ids.user[0]}>
         <div className={classNames.root}>
-          <Menubar/>
+          <Menubar onClickProjects={onGoToProjects} />
           <div className={classNames.content}>
             <Project/>
           </div>
