@@ -2,7 +2,9 @@ import React, { ReactNode } from 'react';
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
-import { ProjectData, emptyProjectData, reducer } from '@taskboar/model';
+
+import { ProjectData } from './types';
+import { reducer, emptyProjectData } from './base';
 
 export interface StoreProviderProps {
   children: ReactNode,

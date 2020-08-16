@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import { useStyles } from './styles';
 
 export interface Props {
-  onSubmit: (value: string) => void,
+  onSubmit: (value: string, ts: Date) => void,
   onCancel?: () => void,
 }
 
@@ -15,7 +15,7 @@ export default function NewComment({ onSubmit, onCancel }: Props) {
 
   const handleClickSubmit = () => {
     if (!!value) {
-      onSubmit(value);
+      onSubmit(value, new Date());
       setValue('');
     }
   };

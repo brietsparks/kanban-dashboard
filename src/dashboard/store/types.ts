@@ -61,5 +61,6 @@ export interface Comment {
   creatorId: string,
   taskId?: string,
   parentCommentId?: string,
-  childCommentIds?: string[]
+  childCommentIds?: string[],
+  ts: Date|null
 }

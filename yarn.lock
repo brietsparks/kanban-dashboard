@@ -1125,13 +1125,6 @@
   resolved "https://registry.yarnpkg.com/@next/react-refresh-utils/-/react-refresh-utils-9.5.2.tgz#5d92d8ad0f2bd79de2290614e74e5a12a0cda02b"
   integrity sha512-ch/16u3OVy/aIXJROwqXZjGw/tFMyG7qy2IGDA2RFjvQMtPyJJrklmwX2EcfH4+4spRI2MZKes2soI+0w2/MDQ==
 
-"@taskboar/model@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@taskboar/model/-/model-0.3.1.tgz#527c0e5ee38ea86b8f9472cc74b55398ae61d757"
-  integrity sha512-fBr8ldrHWaXpOqqjvRhymSrSFxdsEKON4GVIErOE0BfhjDMrF91N6LTKGM5o14Hh0VeKwBdeBIR2taT1Tl/FMg==
-  dependencies:
-    normalized-reducer "^0.4.0"
-
 "@types/color-name@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
@@ -3695,10 +3688,10 @@ normalize-url@1.9.1:
     query-string "^4.1.0"
     sort-keys "^1.0.0"
 
-normalized-reducer@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/normalized-reducer/-/normalized-reducer-0.4.0.tgz#2c49d12f2afc4f6d36ae9da5b2aad4c3c9f03c76"
-  integrity sha512-DQfJG91PFODuQXPAFg0DhQiaNOmIqrWqudks4pWs5/Ezc1J8IRZBLG9rP+NasuZIxHNK3jY5m+ooQ7PepColKQ==
+normalized-reducer@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/normalized-reducer/-/normalized-reducer-0.5.1.tgz#02cf7fcc2eef90a24d4a0a7b20cea2d69aa86392"
+  integrity sha512-JCgR8hZArxKM3yoM8osQCgZ2Vn7l+xZ54ED54S/tA6wNan+GsXChayw+CgAoizlr7EvaF9IhgzSE/dkc02tFpg==
 
 object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"

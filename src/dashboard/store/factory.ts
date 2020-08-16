@@ -1,4 +1,4 @@
-import { Status, Task, User, Tag, Comment } from '@taskboar/model';
+import { Status, Task, User, Tag, Comment } from './types';
 const { v4: uuid } = require('uuid');
 
 export const makeUser = (user: Partial<User> = {}): User => {
@@ -45,5 +45,6 @@ export const makeComment = (comment: Partial<Comment>): Comment => {
     taskId: '',
     parentCommentId: '',
     childCommentIds: [],
+    ts: comment.ts || null
   };
 };

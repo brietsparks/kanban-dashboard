@@ -5,6 +5,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import DeleteIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import CloseIcon from '@material-ui/icons/Close';
+import CheckIcon from '@material-ui/icons/Check';
 import { OverridableComponent } from '@material-ui/core/OverridableComponent';
 import { SvgIconTypeMap } from '@material-ui/core/SvgIcon/SvgIcon';
 import Grid from '@material-ui/core/Grid';
@@ -30,6 +31,9 @@ export const EditButton = ({ iconProps, ...props }: IconButtonProps) =>
 
 export const CloseButton = ({ iconProps, ...props }: IconButtonProps) =>
   <IconButton {...props}><CloseIcon {...iconProps} /></IconButton>;
+
+export const CheckButton = ({ iconProps, ...props }: IconButtonProps) =>
+  <IconButton {...props}><CheckIcon {...iconProps} /></IconButton>;
 
 
 export interface TextButtonProps extends HTMLAttributes<HTMLButtonElement> {

@@ -1,4 +1,4 @@
-import { ProjectData } from '@taskboar/model';
+import { ProjectData } from './types';
 import * as actions from './actions';
 import * as selectors from './selectors';
 import * as hooks from './hooks';

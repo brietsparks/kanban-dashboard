@@ -27,6 +27,21 @@ export const useMenubarStyles = makeStyles((theme) => ({
   }
 }));
 
+export const useUserItemStyles = makeStyles(() => ({
+  editBtn: {
+    marginLeft: 4,
+  }
+}))
+
+export const useUserEditorStyles = makeStyles(() => ({
+  root: {
+    width: '100%'
+  },
+  listItem: {
+    alignItems: 'self-end'
+  }
+}))
+
 export const useCommonStyles = makeStyles(() => ({
   dragHandle: {
     position: 'absolute',
@@ -126,6 +141,9 @@ export const useCardStyles = makeStyles((theme) => ({
 export const useTaskDetailsStyles = makeStyles(theme => ({
   taskDetails: {
     padding: theme.spacing(1.5),
+  },
+  closeBtn: {
+    marginLeft: theme.spacing(1.5),
   },
   header: {
     display: 'flex',

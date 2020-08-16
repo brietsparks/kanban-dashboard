@@ -5,13 +5,14 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import CheckIcon from '@material-ui/icons/CheckCircle';
-import UncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import CurrentUserIcon from '@material-ui/icons/AccountCircle';
+import NonCurrentUserIcon from '@material-ui/icons/RadioButtonUnchecked';
 import TextField from '@material-ui/core/TextField';
 
 import { hooks } from './store';
 import { useCurrentUserId, useSetCurrentUserId } from './CurrentUser';
-import { ConfirmationButtons } from '../components/buttons';
+import { ConfirmationButtons, EditButton } from '../components/buttons';
+import { useUserItemStyles, useUserEditorStyles } from './styles';
 
 export default function UsersMenu() {
   const ids = hooks.useUserIds();
@@ -26,20 +27,19 @@ export default function UsersMenu() {
   }
 
   return (
-    <div>
-      <Button onClick={openEditor}>New User</Button>
-      {isEditorOpen &&
-      <UserEditorForm onSubmit={submitNewUser} onCancel={closeEditor} username="" />
-      }
-
-      <List>
-        {ids.map(id => (
-          <ListItem key={id}>
-            <UserItem id={id} />
-          </ListItem>
-        ))}
-      </List>
-    </div>
+    <List>
+      <ListItem>
+        {isEditorOpen
+          ? <UserEditorForm onSubmit={submitNewUser} onCancel={closeEditor} username="" />
+          : <Button onClick={openEditor} fullWidth color="primary">New User</Button>
+        }
+      </ListItem>
+      {ids.map(id => (
+        <ListItem key={id}>
+          <UserItem id={id} />
+        </ListItem>
+      ))}
+    </List>
   );
 }
 
@@ -50,10 +50,30 @@ export function UserItem({ id }: UserItemProps) {
   const user = hooks.useUser(id);
   const currentUserId = useCurrentUserId();
   const setCurrentUserId = useSetCurrentUserId();
+  const updateUser = hooks.useUpdateUser();
+  const [isEditing, setIsEditing] = useState(false);
+  const classNames = useUserItemStyles();
 
   const isCurrentUser =  user.id === currentUserId
+  const openEditor = () => setIsEditing(true);
+  const closeEditor = () => setIsEditing(false);
   const handleClick = () => setCurrentUserId(user.id);
-  const icon = isCurrentUser ? <CheckIcon/> : <UncheckedIcon/>;
+  const handleUpdateUsername = (username: string) => {
+    updateUser(id, { username });
+    closeEditor();
+  }
+
+  const icon = isCurrentUser ? <CurrentUserIcon/> : <NonCurrentUserIcon/>;
+
+  const username = isEditing
+    ? (
+      <UserEditorForm
+        username={user.username}
+        onCancel={closeEditor}
+        onSubmit={handleUpdateUsername}
+      />
+    )
+    : user.username;
 
   return (
     <Fragment>
@@ -63,7 +83,11 @@ export function UserItem({ id }: UserItemProps) {
         </IconButton>
       </ListItemAvatar>
 
-      <ListItemText>{user.username}</ListItemText>
+      <ListItemText>{username}</ListItemText>
+
+      <span className={classNames.editBtn}>
+        <EditButton onClick={openEditor} />
+      </span>
     </Fragment>
   );
 }
@@ -75,6 +99,7 @@ export interface UserEditorFormProps {
 }
 export function UserEditorForm({ username: initialUsername = '', onSubmit, onCancel }: UserEditorFormProps) {
   const [value, setValue] = useState(initialUsername);
+  const classNames = useUserEditorStyles();
 
   const handleSubmit = () => {
     if (value) {
@@ -89,11 +114,11 @@ export function UserEditorForm({ username: initialUsername = '', onSubmit, onCan
   };
 
   return (
-    <div>
+    <div className={classNames.root}>
       <TextField
         autoFocus
         fullWidth
-        placeholder="Column Title"
+        placeholder="Username"
         value={value}
         onChange={e => setValue(e.target.value)}
       />

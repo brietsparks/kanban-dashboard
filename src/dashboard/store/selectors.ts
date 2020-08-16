@@ -1,4 +1,5 @@
-import { Comment, Status, Tag, Task, User, selectors, ProjectData } from '@taskboar/model';
+import { Comment, Status, Tag, Task, User, ProjectData } from './types';
+import { selectors } from './base';
 
 export const getUserIds = (state: ProjectData) => selectors.getIds(state, { type: 'user' }) as string[];
 export const getTaskIds = (state: ProjectData) => selectors.getIds(state, { type: 'task' }) as string[];

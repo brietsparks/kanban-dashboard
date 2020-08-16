@@ -9,7 +9,7 @@ export interface Props {
   username: string,
   value: string,
   childComments?: ReactNode,
-  onSubmitReply?: (value: string) => void,
+  onSubmitReply?: (value: string, ts: Date) => void,
 }
 
 export default function Comment({
@@ -21,9 +21,9 @@ export default function Comment({
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const classNames = useStyles();
 
-  const handleSubmitReply = (replyValue: string) => {
+  const handleSubmitReply = (replyValue: string, ts: Date) => {
     if (onSubmitReply) {
-      onSubmitReply(replyValue);
+      onSubmitReply(replyValue, ts);
     }
 
     setIsReplyOpen(false);

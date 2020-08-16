@@ -90,7 +90,7 @@ export default function TaskDetails({ id, isOpen, close }: Props) {
             </>
             }
           </div>
-          <span>
+          <span className={classNames.closeBtn}>
             <CloseButton onClick={close}/>
           </span>
         </div>

@@ -22,8 +22,8 @@ export default function Comment({ id }: Props) {
   const { value, childCommentIds } = comment;
 
 
-  const handleSubmitReply = (value: string) => {
-    createChildComment({ value, parentCommentId: id, creatorId: currentUserId });
+  const handleSubmitReply = (value: string, ts: Date) => {
+    createChildComment({ value, parentCommentId: id, creatorId: currentUserId, ts });
   };
 
   const childCommentsElement = (

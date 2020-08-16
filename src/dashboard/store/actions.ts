@@ -1,10 +1,15 @@
-import { actionCreators, Task, User, Tag } from '@taskboar/model';
+import { Task, User, Tag } from './types';
+import { actionCreators } from './base';
 import { makeTask, makeUser, makeStatus, makeTag, makeComment } from './factory';
 
 export const createUser = (data: Partial<User>) => {
   const user = makeUser(data);
   return actionCreators.create('user', user.id, user);
 };
+
+export const updateUser = (id: string, data: { username?: string }) => {
+  return actionCreators.update('user', id, data);
+}
 
 export const createStatus = (data: { id?: string, title: string }) => {
   const status = makeStatus(data);
@@ -62,7 +67,7 @@ export const createRootComment = (data: { id?: string, taskId: string, value: st
   );
 };
 
-export const createChildComment = (data: { id?: string, parentCommentId: string, value: string, creatorId: string }) => {
+export const createChildComment = (data: { id?: string, parentCommentId: string, value: string, creatorId: string, ts: Date }) => {
   const comment = makeComment(data);
 
   return actionCreators.batch(

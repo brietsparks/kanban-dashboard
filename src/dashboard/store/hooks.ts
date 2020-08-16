@@ -8,6 +8,12 @@ export function useCreateUser() {
     dispatch(actions.createUser(user));
   }, [dispatch]);
 }
+export function useUpdateUser() {
+  const dispatch = useDispatch();
+  return useCallback((id: string, user: { username?: string}) => {
+    dispatch(actions.updateUser(id, user));
+  }, [dispatch]);
+}
 
 export function useCreateTask() {
   const dispatch = useDispatch();
@@ -75,7 +81,7 @@ export function useCreateRootComment() {
 }
 export function useCreateChildComment() {
   const dispatch = useDispatch();
-  return useCallback((comment: { value: string, parentCommentId: string, creatorId: string }) => {
+  return useCallback((comment: { value: string, parentCommentId: string, creatorId: string, ts: Date }) => {
     dispatch(actions.createChildComment(comment));
   }, [dispatch]);
 }
