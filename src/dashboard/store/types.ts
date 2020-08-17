@@ -1,10 +1,15 @@
 import { State as NormalizedState } from 'normalized-reducer';
 
 export interface Project {
-  id: string,
+  meta: ProjectMeta,
+  data: ProjectData,
+}
+
+export interface ProjectMeta {
+  id,
   title: string,
-  ownerId: string,
-  data: ProjectData
+  description: string,
+  ts: Date
 }
 
 export interface ProjectData extends NormalizedState {
@@ -64,3 +69,5 @@ export interface Comment {
   childCommentIds?: string[],
   ts: Date|null
 }
+
+export type UpdateProjectData = (projectData: ProjectData) => Promise<void>

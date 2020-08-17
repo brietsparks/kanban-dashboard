@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import Link from 'next/link'
 import MuiAppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -11,11 +12,15 @@ import UsersMenu from './UsersMenu';
 import { useCurrentUsername } from './CurrentUser';
 import { useMenubarStyles } from './styles';
 
+const noop = () => {
+};
+
 export interface MenubarProps {
-  onClickProjects: () => void,
+  title: string,
+  projectsUrlPath: string,
 }
 
-export default function Menubar({ onClickProjects }: MenubarProps) {
+export default function Menubar({ title, projectsUrlPath }: MenubarProps) {
   const classes = useMenubarStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -33,14 +38,16 @@ export default function Menubar({ onClickProjects }: MenubarProps) {
     <Fragment>
       <MuiAppBar position="static">
         <Toolbar>
-          <IconButton
-            onClick={onClickProjects}
-            className={classes.menuButton}
-            edge="start"
-            color="inherit"
-          ><ProjectsIcon /></IconButton>
+          <Link href={projectsUrlPath}>
+            <IconButton
+              onClick={noop}
+              className={classes.menuButton}
+              edge="start"
+              color="inherit"
+            ><ProjectsIcon/></IconButton>
+          </Link>
 
-          <Typography variant="h6" className={classes.title}>Current Project</Typography>
+          <Typography variant="h6" className={classes.title}>{title}</Typography>
 
           <div className={classes.currentUser}>
             <Typography variant="subtitle2" className={classes.currentUsername}>
@@ -48,7 +55,7 @@ export default function Menubar({ onClickProjects }: MenubarProps) {
             </Typography>
 
             <IconButton onClick={handleMenu} color="inherit">
-              <AccountCircle />
+              <AccountCircle/>
             </IconButton>
           </div>
         </Toolbar>

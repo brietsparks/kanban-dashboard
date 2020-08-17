@@ -60,63 +60,63 @@ export default function TaskDetails({ id, isOpen, close }: Props) {
 
   return (
     <Dialog open={isOpen} onBackdropClick={close} fullWidth>
-      <div className={classNames.taskDetails}>
-        <div className={classNames.header}>
-          <div className={classNames.title}>
-            {!isTitleEditable &&
-            <Typography>
-              {title} <EditButton onClick={enableTitleEditing} />
-            </Typography>
-            }
+      <div className={classNames.root}>
+          <div className={classNames.header}>
+            <div className={classNames.title}>
+              {!isTitleEditable &&
+              <Typography>
+                {title} <EditButton onClick={enableTitleEditing} />
+              </Typography>
+              }
 
-            {isTitleEditable &&
-            <>
-              <TextField
-                fullWidth
-                autoFocus
-                value={editedTitle}
-                onChange={e => setEditedTitle(e.target.value)}
-                placeholder="Title"
-              />
+              {isTitleEditable &&
+              <>
+                <TextField
+                  fullWidth
+                  autoFocus
+                  value={editedTitle}
+                  onChange={e => setEditedTitle(e.target.value)}
+                  placeholder="Title"
+                />
 
-              <div>
-                <Button onClick={handleClickCancelEditing} variant="text">Cancel</Button>
-                <Button
-                  onClick={handleClickDoneEditing}
-                  color="primary"
-                  disabled={!editedCleanedTitle}
-                >Save</Button>
-              </div>
-            </>
-            }
+                <div>
+                  <Button onClick={handleClickCancelEditing} variant="text">Cancel</Button>
+                  <Button
+                    onClick={handleClickDoneEditing}
+                    color="primary"
+                    disabled={!editedCleanedTitle}
+                  >Save</Button>
+                </div>
+              </>
+              }
+            </div>
+            <span className={classNames.closeBtn}>
+              <CloseButton onClick={close}/>
+            </span>
           </div>
-          <span className={classNames.closeBtn}>
-            <CloseButton onClick={close}/>
-          </span>
+
+          <div className={classNames.section}>
+            <Typography variant="subtitle2">Created by {creator.username}</Typography>
+          </div>
+
+          <div className={classNames.section}>
+            <Typography variant="subtitle2">Assigned to:</Typography>
+            <TaskAssignment id={id} />
+          </div>
+
+          <div className={classNames.section}>
+            <Typography variant="subtitle2">{rootCommentIds?.length ? 'Comments:' : 'No comments yet...'}</Typography>
+
+            {isCommentFormShown
+              ? <NewComment onSubmit={handleSubmitComment} onCancel={hideCommentForm}/>
+              : <TextButton onClick={showCommentForm}>Leave a comment</TextButton>
+            }
+
+            {rootCommentIds?.map(commentId => (
+              <Comment key={commentId} id={commentId} />
+            ))}
+          </div>
         </div>
-
-        <div className={classNames.section}>
-          <Typography variant="subtitle2">Created by {creator.username}</Typography>
-        </div>
-
-        <div className={classNames.section}>
-          <Typography variant="subtitle2">Assigned to:</Typography>
-          <TaskAssignment id={id} />
-        </div>
-
-        <div className={classNames.section}>
-          <Typography variant="subtitle2">{rootCommentIds?.length ? 'Comments:' : 'No comments yet...'}</Typography>
-
-          {isCommentFormShown
-            ? <NewComment onSubmit={handleSubmitComment} onCancel={hideCommentForm}/>
-            : <TextButton onClick={showCommentForm}>Leave a comment</TextButton>
-          }
-
-          {rootCommentIds?.map(commentId => (
-            <Comment key={commentId} id={commentId} />
-          ))}
-        </div>
-      </div>
     </Dialog>
   );
 }

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 import { useAsync } from 'react-async-hook';
-import { emptyProjectData } from './store';
-import { Project as ProjectState } from './store/types';
 
+import { emptyProjectData } from './store';
+import { Project as ProjectState, ProjectData, UpdateProjectData } from './store/types';
 import CurrentUser from './CurrentUser';
 import { useServiceClient } from '../service';
 import { StoreProvider } from './store';
@@ -12,12 +12,16 @@ import { useDashboardStyles } from './styles';
 
 export interface Props {
   projectId: string,
-  onGoToProjects: () => void,
+  projectsUrlPath: string,
 }
-export default function Dashboard({ projectId, onGoToProjects }: Props) {
+export default function Dashboard({ projectId, projectsUrlPath }: Props) {
   const service = useServiceClient();
   const { error, loading, result } = useAsync<ProjectState>(service.getProject.bind(service), [projectId]);
   const classNames = useDashboardStyles();
+
+  const updateProjectData = useCallback((projectData: ProjectData) => {
+    return service.updateProjectData(projectId, projectData);
+  }, [service, projectId])
 
   if (loading) {
     return <p>loading project</p>
@@ -27,13 +31,17 @@ export default function Dashboard({ projectId, onGoToProjects }: Props) {
     return <p>error loading project</p>
   }
 
+  if (!result) {
+    return <p>error getting data</p>
+  }
+
   const state = result.data || emptyProjectData;
 
   return (
-    <StoreProvider projectId={projectId} state={state}>
+    <StoreProvider state={state} updateProjectData={updateProjectData}>
       <CurrentUser userId={state.ids.user[0]}>
         <div className={classNames.root}>
-          <Menubar onClickProjects={onGoToProjects} />
+          <Menubar projectsUrlPath={projectsUrlPath} title={result.meta.title} />
           <div className={classNames.content}>
             <Project/>
           </div>

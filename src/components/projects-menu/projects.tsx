@@ -11,8 +11,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
 import { useServiceClient } from '../../service';
-import { ProjectMeta } from '../../service/interfaces';
-import { TextButton, ConfirmationButtons } from '../buttons';
+import { ProjectMeta } from '../../dashboard/store/types';
+import { ConfirmationButtons } from '../buttons';
 import { useProjectsStyles, useProjectStyles } from './styles';
 
 // @ts-ignore

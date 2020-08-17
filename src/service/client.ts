@@ -1,10 +1,18 @@
 import { v4 as uuid } from 'uuid';
 import { emptyProjectData } from '../dashboard/store';
-import { Project, ServiceClient } from './interfaces';
+import { Project, ProjectData, ProjectMeta } from '../dashboard/store/types';
 import { createBoilerplateState } from './boilerplate';
 
 const localStorageKey = 'taskboard_projects';
 
+
+export interface ServiceClient {
+  getUserProjectsMeta(): Promise<ProjectMeta[]>
+  createProject(title: string, description: string, boilderplate: boolean): Promise<string>
+  getProject(id: string): Promise<Project>
+  updateProject(id: string, project: Project): Promise<void>
+  deleteProject(id: string): Promise<void>
+}
 
 export class LocalStorageServiceClient implements ServiceClient{
   async getUserProjectsMeta() {
@@ -26,7 +34,7 @@ export class LocalStorageServiceClient implements ServiceClient{
     return id;
   }
 
-  async getProject(id: string) {
+  async getProject(id: string): Project {
     const projects = await this.getProjects();
     return projects[id];
   }
@@ -36,6 +44,17 @@ export class LocalStorageServiceClient implements ServiceClient{
     if (!existing) {
       throw new Error(`project ${id} does not exist`);
     }
+
+    return this.putProject(id, project);
+  }
+
+  async updateProjectData(id: string, projectData: ProjectData) {
+    const project = await this.getProject(id);
+    if (!project) {
+      throw new Error(`project ${id} does not exist`);
+    }
+
+    project.data = projectData;
 
     return this.putProject(id, project);
   }

@@ -139,7 +139,7 @@ export const useCardStyles = makeStyles((theme) => ({
 }));
 
 export const useTaskDetailsStyles = makeStyles(theme => ({
-  taskDetails: {
+  root: {
     padding: theme.spacing(1.5),
   },
   closeBtn: {

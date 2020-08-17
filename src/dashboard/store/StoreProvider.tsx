@@ -2,28 +2,33 @@ import React, { ReactNode } from 'react';
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
+import createSagaMiddleware from 'redux-saga';
 
-import { ProjectData } from './types';
+import { ProjectData, UpdateProjectData } from './types';
 import { reducer, emptyProjectData } from './base';
+import { makeSaga } from './saga';
 
 export interface StoreProviderProps {
   children: ReactNode,
-  projectId: string,
+  updateProjectData: UpdateProjectData,
   state?: ProjectData,
 }
 
 export function StoreProvider({
   children,
-  projectId,
+  updateProjectData,
   state = emptyProjectData,
 }: StoreProviderProps) {
+  const sagaMiddleware = createSagaMiddleware();
 
   // @ts-ignore
   const store = createStore(
     reducer,
     state,
-    composeWithDevTools(applyMiddleware())
+    composeWithDevTools(applyMiddleware(sagaMiddleware))
   );
+
+  sagaMiddleware.run(makeSaga(updateProjectData));
 
   return (
     <Provider store={store}>
