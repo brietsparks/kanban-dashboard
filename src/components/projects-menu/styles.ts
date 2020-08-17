@@ -24,5 +24,11 @@ export const useProjectStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  buttons: {
+    display: 'flex',
+  },
+  dialog: {
+    padding: theme.spacing(2)
   }
 }));

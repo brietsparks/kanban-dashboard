@@ -1,1 +1,1 @@
-export { default as Projects } from './projects';
+export { default as ProjectsMenu } from './ProjectsMenu';
