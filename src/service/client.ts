@@ -2,9 +2,9 @@ import { v4 as uuid } from 'uuid';
 import { emptyProjectData } from '../dashboard/store';
 import { Project, ProjectData, ProjectMeta } from '../dashboard/store/types';
 import { createBoilerplateState } from './boilerplate';
+import starterData from './starter-data';
 
-const localStorageKey = 'taskboard_projects';
-
+const localStorageKey = 'kanban_dashboard_projects';
 
 export interface ServiceClient {
   getUserProjectsMeta(): Promise<ProjectMeta[]>
@@ -34,7 +34,7 @@ export class LocalStorageServiceClient implements ServiceClient{
     return id;
   }
 
-  async getProject(id: string): Project {
+  async getProject(id: string): Promise<Project> {
     const projects = await this.getProjects();
     return projects[id];
   }
@@ -66,9 +66,12 @@ export class LocalStorageServiceClient implements ServiceClient{
     localStorage.setItem(localStorageKey, persistable);
   }
 
-  private async getProjects() {
-    let persistable = localStorage.getItem(localStorageKey) || '{}';
-    return JSON.parse(persistable);
+  private async getProjects(): Promise<Record<string, Project>> {
+    let persistable = localStorage.getItem(localStorageKey);
+
+    return persistable
+      ? JSON.parse(persistable)
+      : starterData
   }
 
   private async putProject(id: string, project: Project) {
