@@ -1,8 +1,8 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 
-import { ServiceProvider } from '../../service';
-import { Dashboard } from '../../dashboard';
+import { ServiceProvider } from '../service';
+import { Dashboard } from '../dashboard';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -10,7 +10,7 @@ export default function DashboardPage() {
 
   return (
     <ServiceProvider>
-      <Dashboard projectId={projectId as string} projectsUrlPath="/projects" />
+      <Dashboard projectId={projectId as string} projectsUrlPath="/" />
     </ServiceProvider>
   );
 }

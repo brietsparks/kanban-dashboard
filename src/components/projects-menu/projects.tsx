@@ -64,7 +64,7 @@ export function Project({ id, title, description }: ProjectProps) {
         <Typography variant="h4" component="h2">{title}</Typography>
 
         <div>
-          <Link href={`/projects/${id}`}>
+          <Link href={`/${id}`}>
             <IconButton onClick={noop}><NavigateIcon/></IconButton>
           </Link>
         </div>
@@ -98,7 +98,7 @@ export function ProjectCreatorForm({ onCancel }: ProjectCreatorFormProps) {
   const { execute, loading, error, result: createdId } = useAsyncCallback(service.createProject.bind(service));
 
   if (createdId) {
-    router.push(`/projects/${createdId}`);
+    router.push(`/${createdId}`);
     return null;
   }
 

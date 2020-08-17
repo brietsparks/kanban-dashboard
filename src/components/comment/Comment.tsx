@@ -1,5 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
+import moment from 'moment';
 
 import NewComment from './NewComment';
 import { TextButton } from '../buttons';
@@ -33,10 +34,12 @@ export default function Comment({
 
   const handleCancelReply = () => setIsReplyOpen(false);
 
+  const formattedTs = moment(new Date(ts)).format('M-D-YYYY h:mma');
+
   return (
     <div className={classNames.comment}>
       <div className={classNames.commentHeader}>
-        <Typography variant="subtitle2">{username} at {JSON.stringify(ts, null, 2)}</Typography>
+        <Typography variant="subtitle2">{username} at {formattedTs}</Typography>
         <Typography>{value}</Typography>
       </div>
 

@@ -12,6 +12,7 @@
     "@material-ui/icons": "^4.9.1",
     "@svgr/webpack": "^5.4.0",
     "@types/react-redux": "^7.1.9",
+    "moment": "^2.27.0",
     "next": "9.5.2",
     "normalized-reducer": "^0.5.1",
     "react": "16.13.1",

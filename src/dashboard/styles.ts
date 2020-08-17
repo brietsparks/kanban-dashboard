@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useDashboardStyles = makeStyles(() => ({
+export const useDashboardStyles = makeStyles(theme => ({
   root: {
     height: '100vh',
     display: 'flex',
@@ -8,6 +8,7 @@ export const useDashboardStyles = makeStyles(() => ({
   },
   content: {
     flexGrow: 1,
+    height: `calc(100vh - 65px)`, // 65 is height of appbar
   }
 }))
 

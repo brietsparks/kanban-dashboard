@@ -20,8 +20,13 @@ export const updateStatus = (id: string, status: { title?: string }) => {
   return actionCreators.update('status', id, status);
 };
 
+const commentCascade = () => ({ childCommentIds: commentCascade })
+
 export const deleteStatus = (id: string) => {
-  return actionCreators.delete('status', id);
+  const cascade = {
+    taskIds: { rootCommentIds: { childCommentIds: commentCascade } }
+  };
+  return actionCreators.delete('status', id, cascade);
 };
 
 export const createTask = (data: Partial<Task>) => {
@@ -39,7 +44,8 @@ export const updateTask = (id: string, task: { title?: string }) => {
 };
 
 export const deleteTask = (id: string) => {
-  return actionCreators.delete('task', id);
+  const cascade = { rootCommentIds: { childCommentIds: commentCascade } };
+  return actionCreators.delete('task', id, cascade);
 };
 
 export const assignTask = (taskId: string, userId: string) => {
@@ -78,7 +84,8 @@ export const createChildComment = (data: { id?: string, parentCommentId: string,
 };
 
 export const deleteComment = (id: string) => {
-  return actionCreators.delete('comment', id);
+  const cascade = { childCommentIds: commentCascade };
+  return actionCreators.delete('comment', id, cascade);
 };
 
 export const moveStatus = (src: number, dest: number) => {

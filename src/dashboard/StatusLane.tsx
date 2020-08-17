@@ -118,7 +118,7 @@ export default function StatusLane({ id, dragHandleProps }: Props) {
               onCancel={closeDeleteConfirm}
               onConfirm={handleConfirmDelete}
               confirmColor="secondary"
-              cancelLabel="Delete"
+              confirmLabel="Delete"
             />
           </Paper>
         </Dialog>
